@@ -8,6 +8,7 @@ import starlightImageZoom from "starlight-image-zoom";
 import starlightLinksValidator from "starlight-links-validator";
 import starlightSidebarTopics from "starlight-sidebar-topics";
 import starlightDocSearch from "@astrojs/starlight-docsearch";
+import starlightScrollToTop from "starlight-scroll-to-top";
 
 const IS_CHINA_SITE = process.env.CHINA === "true";
 
@@ -29,6 +30,7 @@ export default defineConfig({
             editLink: {
                 baseUrl: "https://github.com/Cubic-Project/NitWikit/edit/main/"
             },
+            customCss: ["./src/styles/global.css"],
             plugins: [
                 starlightGiscus({
                     repo: "Cubic-Project/NitWikit",
@@ -112,6 +114,7 @@ export default defineConfig({
                                             collapsed: true,
                                             items: [
                                                 "java/start/server-core-choose/intro",
+                                                "java/start/server-core-choose/relationship-between-servers",
                                                 "java/start/server-core-choose/plugin",
                                                 "java/start/server-core-choose/mod",
                                                 "java/start/server-core-choose/hybrid",
@@ -1009,7 +1012,8 @@ export default defineConfig({
                     apiKey: "4bb3573e59f2c49f30f057ce54edab3f",
                     indexName: "yizhan",
                     insights: true
-                })
+                }),
+                starlightScrollToTop()
             ],
             components: {
                 Sidebar: "./src/components/Sidebar.astro"
