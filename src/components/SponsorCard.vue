@@ -1,10 +1,4 @@
 <script setup lang="ts">
-import { NCard } from "naive-ui";
-import { NConfigProvider } from "naive-ui";
-
-import { darkTheme, type GlobalTheme } from "naive-ui";
-import { ref, watch, nextTick, onMounted } from "vue";
-
 const props = defineProps<{
     items: {
         name: string;
@@ -12,41 +6,26 @@ const props = defineProps<{
         qid: string;
     }[];
 }>();
-
-const theme = ref<GlobalTheme | null>(null);
-
-async function updateThemeByHtmlAttr() {
-    await nextTick();
-    const html = document.documentElement;
-    const mode = html.getAttribute("data-theme");
-    theme.value = mode === "dark" ? darkTheme : null;
-}
-
-onMounted(() => {
-    void updateThemeByHtmlAttr();
-    const observer = new MutationObserver(() => {
-        void updateThemeByHtmlAttr();
-    });
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-});
 </script>
 
 <template>
-    <n-config-provider :theme="theme" class="not-content">
-        <div class="grid gap-4 items-baseline grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            <div v-for="item in props.items" :key="item.qid">
-                <n-card
-                    size="medium"
-                    :title="item.name"
-                    content-style="text-align: center; padding: 0.2rem; margin-top: 0;"
-                    header-style="text-align: center; padding: 0; margin-top: 0.4rem;"
-                >
-                    <template #cover>
-                        <img :src="`https://q.qlogo.cn/g?b=qq&nk=${item.qid}&s=100`" class="mx-auto" />
-                    </template>
+    <div class="not-content grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
+        <div 
+            v-for="item in props.items" 
+            :key="item.qid" 
+            class="group flex flex-col items-center p-3 bg-base-100 rounded-lg border border-base-200 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-(--sl-color-accent)/50 hover:bg-(--sl-color-accent)/5"
+        >
+            <div class="daisy-avatar mb-3">
+                <div class="w-16 rounded-lg ring ring-base-200 ring-offset-2 ring-offset-base-100 transition-all duration-300 group-hover:ring-(--sl-color-accent)">
+                    <img :src="`https://q.qlogo.cn/g?b=qq&nk=${item.qid}&s=100`" :alt="item.name" loading="lazy" />
+                </div>
+            </div>
+            <div class="text-center w-full">
+                <h3 class="font-bold text-base truncate px-1 group-hover:text-(--sl-color-accent) transition-colors">{{ item.name }}</h3>
+                <div class="daisy-badge daisy-badge-ghost daisy-badge-sm mt-2 font-mono text-(--sl-color-accent) bg-(--sl-color-accent)/10">
                     ¥{{ item.amount }}
-                </n-card>
+                </div>
             </div>
         </div>
-    </n-config-provider>
+    </div>
 </template>
