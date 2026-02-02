@@ -36,6 +36,14 @@
     --sl-color-black: #ffffff;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+@view-transition {
+    navigation: auto;
+}
+
 @media (min-width: 96rem) {
     :root {
         --sl-content-width: 64rem;
